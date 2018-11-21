@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Customer")
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -22,8 +22,11 @@ public class User {
     private String surname;
     private String email;
 
+
     @Type(type = "date")
     private Date date;
 
     private Boolean enable;
+
+
 }
