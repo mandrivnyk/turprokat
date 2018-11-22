@@ -17,8 +17,7 @@ public class MainController {
     @Autowired
     private CustomerService customerService;
 
-//    @Autowired
-//    private MailSender mailSender;
+
 
     @GetMapping("/")
     public String main(Map<String, Object> model) {

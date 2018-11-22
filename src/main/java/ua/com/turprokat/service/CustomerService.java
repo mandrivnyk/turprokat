@@ -11,9 +11,12 @@ public class CustomerService{
     @Autowired
     private CustomerRepo customerRepo;
 
+    @Autowired
+    private MailSender mailSender;
 
     public void addCustomer(Customer customer){
         customerRepo.save(customer);
+        mailSender.send(customer.getEmail(), "test", "text1");
     }
 
     public Iterable<Customer> findAll(){
