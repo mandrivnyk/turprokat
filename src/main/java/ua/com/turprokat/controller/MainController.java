@@ -9,6 +9,9 @@ import ua.com.turprokat.service.CustomerService;
 import ua.com.turprokat.service.MailSender;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -33,13 +36,31 @@ public class MainController {
 //    }
 
     @PostMapping("/addCustomer")
-    public String addNewUser(@RequestParam String name, @RequestParam String surname, @RequestParam String email, Map<String, Object> model) {
+    public String addNewUser(
+                @RequestParam String name,
+                @RequestParam String surname,
+                @RequestParam String passport,
+                @RequestParam String phone,
+                @RequestParam String birthday,
+                @RequestParam String email,
+                @RequestParam String files,
+                Map<String, Object> model
+    ) {
+        Date dBirthday;
+        try {
+            dBirthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
+        } catch (ParseException e) {
+            dBirthday = new Date(1970,1,1);
+        }
         Customer customer = new Customer();
         customer.setName(name);
         customer.setSurname(surname);
+        customer.setBirthday(dBirthday);
+        customer.setPassport(passport);
+        customer.setPhone(phone);
         customer.setEmail(email);
         customer.setEnable(true);
-        customer.setDate(new java.util.Date());
+        customer.setDate(new Date());
         customerService.addCustomer(customer);
        // mailSender.send(email, "test", "test");
 

@@ -20,8 +20,13 @@ public class Customer {
 
     private String name;
     private String surname;
+    private String passport;
+    private String phone;
     private String email;
+    private String files;
 
+    @Type(type = "date")
+    private Date birthday;
 
     @Type(type = "date")
     private Date date;

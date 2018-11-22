@@ -1,11 +1,16 @@
 <html>
 
 <body>
+<style> th, td { padding: 2px 5px; border-bottom: 1px solid #d4d4d4; } </style>
     <div>
-        <form action="/addCustomer" method="post">
+        <form action="/addCustomer" method="post" enctype="multipart/form-data">
             <div><label> Name : <input type="text" name="name" placeholder="Name"/> </label></div>
             <div><label> Surname : <input type="text" name="surname" placeholder="Surname"/> </label></div>
+            <div><label> Birthday : <input type="date" name="birthday" placeholder="Birthday"/> </label></div>
+            <div><label> Passport : <input type="text" name="passport" placeholder="Passport number"/> </label></div>
+            <div><label> Phone : <input type="text" name="phone" placeholder="Phone number"/> </label></div>
             <div><label> Email : <input type="email" name="email" placeholder="some@some.net" /> </label></div>
+            <div><label> Files : <input type="file" name="files" accept="image/jpeg,image/png,image/jpg" multiple /> </label></div>
             <input type="hidden" name="_csrf" value="${_csrf.token}}">
             <div><input type="submit" value="Add customer"/></div>
         </form>
@@ -17,17 +22,31 @@
         <th>date</th>
         <th>Name</th>
         <th>Surname</th>
+        <th>Birthday</th>
+        <th>Passport</th>
+        <th>Phone</th>
         <th>Email</th>
+        <th>Files</th>
+        <th>Control</th>
     </thead>
+    <tbody>
     {{#customers}}
         <tr style="border: 1px">
             <td>{{id}}</td>
             <td>{{date}}</td>
             <td>{{name}}</td>
             <td>{{surname}}</td>
+            <td>{{birthday}}</td>
+            <td>{{passport}}</td>
+            <td>{{phone}}</td>
             <td>{{email}}</td>
+            <td>
+
+            </td>
+            <td><i class="edit"></i><i class="delete"></i></td>
         </tr>
     {{/customers}}
+    </tbody>
 </table>
 
 </body>
