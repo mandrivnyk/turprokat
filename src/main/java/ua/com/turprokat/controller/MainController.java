@@ -2,6 +2,7 @@ package ua.com.turprokat.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.turprokat.domain.Customer;
@@ -39,24 +40,19 @@ public class MainController {
 
     @PostMapping("/addCustomer")
     public String addNewUser(
-                @RequestParam String name,
-                @RequestParam String surname,
-                @RequestParam String passport,
-                @RequestParam String phone,
-                @RequestParam String birthday,
-                @RequestParam String email,
-                Map<String, Object> model
+            @RequestParam String name,
+            @RequestParam String surname,
+            @RequestParam String passport,
+            @RequestParam String phone,
+            @RequestParam("birthday") @DateTimeFormat(pattern="yyyy-MM-dd") Date birthday,
+            @RequestParam String email,
+//            @RequestParam String files,
+            Map<String, Object> model
     ) {
-        Date dBirthday;
-        try {
-            dBirthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
-        } catch (ParseException e) {
-            dBirthday = new Date(1970,1,1);
-        }
         Customer customer = new Customer();
         customer.setName(name);
         customer.setSurname(surname);
-        customer.setBirthday(dBirthday);
+        customer.setBirthday(birthday);
         customer.setPassport(passport);
         customer.setPhone(phone);
         customer.setEmail(email);
