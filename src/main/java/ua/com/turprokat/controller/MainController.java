@@ -34,6 +34,9 @@ public class MainController {
 //        return "login";
 //    }
 
+
+//@RequestParam String files,
+
     @PostMapping("/addCustomer")
     public String addNewUser(
                 @RequestParam String name,
@@ -42,7 +45,6 @@ public class MainController {
                 @RequestParam String phone,
                 @RequestParam String birthday,
                 @RequestParam String email,
-                @RequestParam String files,
                 Map<String, Object> model
     ) {
         Date dBirthday;
@@ -61,7 +63,6 @@ public class MainController {
         customer.setEnable(true);
         customer.setDate(new Date());
         customerService.addCustomer(customer);
-       // mailSender.send(email, "test", "test");
 
         Iterable<Customer> customers = customerService.findAll();
         model.put("customers", customers);
