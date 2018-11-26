@@ -16,11 +16,12 @@ public class CustomerService{
 
     public void addCustomer(Customer customer){
         customerRepo.save(customer);
-        mailSender.send(customer.getEmail(), "test", "text1");
     }
 
     public Iterable<Customer> findAll(){
             return customerRepo.findAll();
     }
+
+
 
 }

@@ -13,6 +13,7 @@ import ua.com.turprokat.service.MailSender;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -20,6 +21,9 @@ public class MainController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private MailSender mailSender;
 
 
 
@@ -46,6 +50,7 @@ public class MainController {
             @RequestParam String phone,
             @RequestParam("birthday") @DateTimeFormat(pattern="yyyy-MM-dd") Date birthday,
             @RequestParam String email,
+            @RequestParam String password,
 //            @RequestParam String files,
             Map<String, Object> model
     ) {
@@ -58,9 +63,23 @@ public class MainController {
         customer.setEmail(email);
         customer.setEnable(true);
         customer.setDate(new Date());
+        customer.setPassword(password);
         customerService.addCustomer(customer);
 
         Iterable<Customer> customers = customerService.findAll();
+        model.put("customers", customers);
+        return "main";
+    }
+
+    @PostMapping("/sendAll")
+    public String sendAll(Map<String, Object> model){
+        Iterable<Customer> customers = customerService.findAll();
+//
+//        for(Customer c: customers) {
+//            mailSender.send();
+//        }
+
+        mailSender.sendToAll();
         model.put("customers", customers);
         return "main";
     }
