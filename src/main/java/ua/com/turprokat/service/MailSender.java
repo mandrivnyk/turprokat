@@ -7,6 +7,7 @@ import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.MultiPartEmail;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.com.turprokat.domain.Customer;
 import ua.com.turprokat.repos.CustomerRepo;
@@ -21,16 +22,23 @@ public class MailSender {
     @Autowired
     private CustomerRepo customerRepo;
 
-    private  String pathToFolder = "C:/viza/";
+    @Value("${spring.viza.files.folder}")
+    private  String pathToFolder;
 
-    private  String code = "CODE_HERE";
+    @Value("${spring.viza.code}")
+    private  String code;
 
-    private  String emailTo = "easier@ukr.net";
-    private  String emailToCopyBcc = "shop@mandrivnyk.kiev.ua";
-//  private  String emailTo = "zamkarta_lvov@mzv.cz;";
+    @Value("${spring.viza.emailTo}")
+    private  String emailTo;
 
-    private  String host = "smtp.gmail.com";
-    private  int port = 587;
+    @Value("${spring.viza.emailToCopyBcc}")
+    private  String emailToCopyBcc;
+
+    @Value("${spring.viza.host}")
+    private  String host;
+
+    @Value("${spring.viza.port}")
+    private  int port;
 
 
 

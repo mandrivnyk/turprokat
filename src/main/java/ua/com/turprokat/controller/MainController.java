@@ -34,13 +34,6 @@ public class MainController {
         return "main";
     }
 
-//    @RequestMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
-
-
-//@RequestParam String files,
 
     @PostMapping("/addCustomer")
     public String addNewUser(
@@ -74,19 +67,10 @@ public class MainController {
     @PostMapping("/sendAll")
     public String sendAll(Map<String, Object> model){
         Iterable<Customer> customers = customerService.findAll();
-//
-//        for(Customer c: customers) {
-//            mailSender.send();
-//        }
-
         mailSender.sendToAll();
         model.put("customers", customers);
         return "main";
     }
 
-//    @GetMapping(path = "/")
-//    public @ResponseBody Iterable<Customer> getAllUsers(){
-//        return customerRepo.findAll();
-//    }
 
 }
