@@ -65,9 +65,10 @@ public class MainController {
     }
 
     @PostMapping("/sendAll")
-    public String sendAll(Map<String, Object> model){
+    public String sendAll( @RequestParam String code,
+                           Map<String, Object> model){
         Iterable<Customer> customers = customerService.findAll();
-        mailSender.sendToAll();
+        mailSender.sendToAll(code);
         model.put("customers", customers);
         return "main";
     }

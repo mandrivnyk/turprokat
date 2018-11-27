@@ -13,7 +13,7 @@ import ua.com.turprokat.domain.Customer;
 import ua.com.turprokat.repos.CustomerRepo;
 
 import java.io.File;
-
+import java.text.SimpleDateFormat;
 
 
 @Service
@@ -25,8 +25,8 @@ public class MailSender {
     @Value("${spring.viza.files.folder}")
     private  String pathToFolder;
 
-    @Value("${spring.viza.code}")
-    private  String code;
+//    @Value("${spring.viza.code}")
+//    private  String code;
 
     @Value("${spring.viza.emailTo}")
     private  String emailTo;
@@ -43,24 +43,25 @@ public class MailSender {
 
 
 
-    public void sendToAll(){
+    public void sendToAll(String code){
 
         Iterable<Customer> customers = customerRepo.findAll();
 
         for(Customer c:customers) {
-                send(c);
+                send(c, code);
         }
     }
 
 
-    private void send(Customer customer){
+    private void send(Customer customer, String code){
         try {
+            String birthday = new SimpleDateFormat("dd-MM-yyyy").format(customer.getBirthday());
 
             String userName = customer.getEmail();
             String password = customer.getPassword();
             String subject = code;
             String text =   "•\tІм'я та прізвище заявника: "+customer.getName()+" "+customer.getSurname()+"\n"+
-                            "•\tДата народження заявника: "+customer.getBirthday()+"\n"+
+                            "•\tДата народження заявника: "+birthday+"\n"+
                             "•\tНомер закордонного паспорта заявника: "+customer.getPassport()+"\n"+
                             "•\tКонтактні дані заявника (телефон та e-mail): "+customer.getPhone()+"; "+customer.getEmail()+"\n";
 
