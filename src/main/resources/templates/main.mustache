@@ -1,7 +1,6 @@
 <html>
 
 <body>
-<style> th, td { padding: 2px 5px; border-bottom: 1px solid #d4d4d4; } </style>
     <div>
         <form action="/addCustomer" method="post" enctype="multipart/form-data">
             <div><label> Name : <input type="text" name="name" placeholder="Name"/> </label></div>
@@ -44,7 +43,7 @@
             <td>{{email}}</td>
             <td>{{password}}</td>
             <td></td>
-            <td><i class="edit"></i><i class="delete"></i></td>
+            <td><i class="edit">&#926;</i><i class="delete">&#935;</i></td>
         </tr>
     {{/customers}}
     </tbody>
@@ -54,5 +53,11 @@
 <form action="/sendAll" method="post">
     <div><button type="submit" >Send All</button></div>
 </form>
+<style>
+    th, td { padding: 2px 5px; border-bottom: 1px solid #d4d4d4; }
+    i { padding: 2px 5px; font-size: 16px; font-weight: bold; font-style: normal; cursor: pointer; }
+    .edit { color: green; }
+    .delete { color: red; }
+</style>
 </body>
 </html>

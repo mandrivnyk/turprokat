@@ -1,6 +1,10 @@
 package ua.com.turprokat.controller;
 
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -10,9 +14,11 @@ import ua.com.turprokat.service.CustomerService;
 import ua.com.turprokat.service.MailSender;
 
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +76,43 @@ public class MainController {
         mailSender.sendToAll();
         model.put("customers", customers);
         return "main";
+    }
+
+    @GetMapping("/showCode")
+    public String showCode(Map<String, Object> model){
+        Elements htmlWithCode = null;
+        try {
+            HashMap<String, String> cookie = new HashMap();
+            Document res = Jsoup
+                    .connect("https://www.mzv.cz/lvov/uk/x2004_02_03/x2016_05_18/x2017_11_24_1.html")
+                    .get();
+            String script = res.select("script").toString();
+            int iStartCookie = script.indexOf("document.cookie=\"")+18;
+            int iEndCookie = script.substring(iStartCookie).indexOf("\"");
+
+            String sCookie = script.substring(iStartCookie-1, (iStartCookie + iEndCookie));
+            String[] aCookies = sCookie.split("; ");
+
+            for(String keyVal:aCookies)
+            {
+                String[] parts = keyVal.split("=",2);
+                cookie.put(parts[0],parts[1]);
+            }
+
+            Document doc = Jsoup
+                    .connect("https://www.mzv.cz/lvov/uk/x2004_02_03/x2016_05_18/x2017_11_24_1.html")
+                    .cookies(cookie)
+                    .get();
+            htmlWithCode = doc.select("#content .article_body ol li:last-child ul li:last-child");
+            if (htmlWithCode.size() == 0){
+                htmlWithCode = doc.select("body");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        model.put("code", htmlWithCode);
+        return "showcode";
     }
 
 
