@@ -81,12 +81,15 @@ public class MainController {
 
     @GetMapping("/showCode")
     public String showCode(Map<String, Object> model){
-        Elements htmlWithCode = null;
+        Elements htmlWithCode = new Elements();
         try {
             HashMap<String, String> cookie = new HashMap();
-            Document res = Jsoup
+            Document res = null;
+
+            res = Jsoup
                     .connect("https://www.mzv.cz/lvov/uk/x2004_02_03/x2016_05_18/x2017_11_24_1.html")
                     .get();
+
             String script = res.select("script").toString();
             int iStartCookie = script.indexOf("document.cookie=\"")+18;
             int iEndCookie = script.substring(iStartCookie).indexOf("\"");
@@ -109,7 +112,7 @@ public class MainController {
                 htmlWithCode = doc.select("body");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            showCode(model);
         }
 
         model.put("code", htmlWithCode);
