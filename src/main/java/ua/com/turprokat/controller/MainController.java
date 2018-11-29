@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.turprokat.domain.Customer;
+import ua.com.turprokat.service.AppRunner;
 import ua.com.turprokat.service.CustomerService;
 import ua.com.turprokat.service.MailSender;
 
@@ -17,10 +18,7 @@ import ua.com.turprokat.service.MailSender;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -72,9 +70,14 @@ public class MainController {
 
     @PostMapping("/sendAll")
     public String sendAll( @RequestParam String code,
-                           Map<String, Object> model){
+                           Map<String, Object> model) throws Exception {
+        String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+        System.out.println("---START------------------------------------");
+        System.out.println(timeStamp);
+        AppRunner appRunner = new AppRunner(new MailSender());
+        appRunner.run();
+       // mailSender.sendToAll(code);
         Iterable<Customer> customers = customerService.findAll();
-        mailSender.sendToAll(code);
         model.put("customers", customers);
         return "main";
     }

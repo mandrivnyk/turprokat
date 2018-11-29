@@ -8,6 +8,7 @@ import org.apache.commons.mail.MultiPartEmail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ua.com.turprokat.domain.Customer;
 import ua.com.turprokat.repos.CustomerRepo;
@@ -63,9 +64,11 @@ public class MailSender {
         }
     }
 
-
-    private void send(Customer customer){
+    @Async
+    public void send(Customer customer){
         try {
+            long threadId = Thread.currentThread().getId();
+            System.out.println("thread #" + threadId );
             String birthday = new SimpleDateFormat("dd-MM-yyyy").format(customer.getBirthday());
 
             String userName = customer.getEmail();
