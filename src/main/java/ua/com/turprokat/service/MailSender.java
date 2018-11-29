@@ -14,6 +14,7 @@ import ua.com.turprokat.repos.CustomerRepo;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 @Service
@@ -25,8 +26,8 @@ public class MailSender {
     @Value("${spring.viza.files.folder}")
     private  String pathToFolder;
 
-//    @Value("${spring.viza.code}")
-//    private  String code;
+    @Value("${spring.viza.code}")
+    private  String code;
 
     @Value("${spring.viza.emailTo}")
     private  String emailTo;
@@ -46,14 +47,24 @@ public class MailSender {
     public void sendToAll(String code){
 
         Iterable<Customer> customers = customerRepo.findAll();
+//        String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+
+//        System.out.println(timeStamp);
+//
+//        while (!timeStamp.equals("164955") ) {
+//            System.out.println("waiting..."+timeStamp);
+//            timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+//        }
 
         for(Customer c:customers) {
-                send(c, code);
+            send(c);
+            String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+            System.out.println(timeStamp);
         }
     }
 
 
-    private void send(Customer customer, String code){
+    private void send(Customer customer){
         try {
             String birthday = new SimpleDateFormat("dd-MM-yyyy").format(customer.getBirthday());
 
