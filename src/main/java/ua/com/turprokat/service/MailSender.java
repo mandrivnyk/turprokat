@@ -68,7 +68,7 @@ public class MailSender {
     public void send(Customer customer){
         try {
             long threadId = Thread.currentThread().getId();
-            System.out.println("thread #" + threadId );
+            System.out.println("thread #" + threadId + Thread.currentThread().getName());
             String birthday = new SimpleDateFormat("dd-MM-yyyy").format(customer.getBirthday());
 
             String userName = customer.getEmail();

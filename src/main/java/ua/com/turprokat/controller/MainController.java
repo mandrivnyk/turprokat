@@ -1,7 +1,6 @@
 package ua.com.turprokat.controller;
 
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -10,13 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.turprokat.domain.Customer;
-import ua.com.turprokat.service.AppRunner;
+import ua.com.turprokat.repos.CustomerRepo;
 import ua.com.turprokat.service.CustomerService;
 import ua.com.turprokat.service.MailSender;
 
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,7 +27,8 @@ public class MainController {
     @Autowired
     private MailSender mailSender;
 
-
+    @Autowired
+    private CustomerRepo customerRepo;
 
     @GetMapping("/")
     public String main(Map<String, Object> model) {
@@ -74,10 +73,16 @@ public class MainController {
         String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
         System.out.println("---START------------------------------------");
         System.out.println(timeStamp);
-        AppRunner appRunner = new AppRunner(new MailSender());
-        appRunner.run();
-       // mailSender.sendToAll(code);
-        Iterable<Customer> customers = customerService.findAll();
+
+
+        Iterable<Customer> customers = customerRepo.findAll();
+        for(Customer c:customers) {
+            mailSender.send(c);
+             timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+            System.out.println(timeStamp);
+
+        }
+
         model.put("customers", customers);
         return "main";
     }

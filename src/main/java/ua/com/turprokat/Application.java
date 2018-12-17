@@ -16,7 +16,8 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean
+
+	@Bean(name = "threadPoolTaskExecutor")
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
