@@ -78,9 +78,6 @@ public class MainController {
         Iterable<Customer> customers = customerRepo.findAll();
         for(Customer c:customers) {
             mailSender.send(c);
-             timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
-            System.out.println(timeStamp);
-
         }
 
         model.put("customers", customers);

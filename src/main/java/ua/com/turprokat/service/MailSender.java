@@ -67,8 +67,7 @@ public class MailSender {
     @Async
     public void send(Customer customer){
         try {
-            long threadId = Thread.currentThread().getId();
-            System.out.println("thread #" + threadId + Thread.currentThread().getName());
+
             String birthday = new SimpleDateFormat("dd-MM-yyyy").format(customer.getBirthday());
 
             String userName = customer.getEmail();
@@ -103,8 +102,16 @@ public class MailSender {
                 simpleEmail.attach(attachment);
             }
 
-            simpleEmail.send();
+            simpleEmail.buildMimeMessage();
 
+            for(int i=0; i<3; i++){
+                //Thread.currentThread().sleep(10);
+                long threadId = Thread.currentThread().getId();
+                String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+                System.out.println("thread #" + threadId +"_"+timeStamp+"__"+ Thread.currentThread().getName());
+                System.out.println(timeStamp);
+                simpleEmail.sendMimeMessage();
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
