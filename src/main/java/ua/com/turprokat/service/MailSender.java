@@ -83,8 +83,8 @@ public class MailSender {
             MultiPartEmail simpleEmail = new MultiPartEmail();
             simpleEmail.setHostName(host);
             simpleEmail.setSmtpPort(port);
-            simpleEmail.setAuthenticator(new DefaultAuthenticator(userName, password));
-            simpleEmail.setSSLOnConnect(true);
+//            simpleEmail.setAuthenticator(new DefaultAuthenticator(userName, password));
+            simpleEmail.setSSLOnConnect(false);
             simpleEmail.setFrom(userName);
             simpleEmail.setSubject(subject);
             simpleEmail.setMsg(text);
