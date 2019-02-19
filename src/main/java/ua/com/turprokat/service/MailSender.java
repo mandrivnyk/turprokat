@@ -104,7 +104,7 @@ public class MailSender {
 
             simpleEmail.buildMimeMessage();
 
-            for(int i=0; i<3; i++){
+            for(int i=0; i<1; i++){
                 //Thread.currentThread().sleep(10);
                 long threadId = Thread.currentThread().getId();
                 String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
